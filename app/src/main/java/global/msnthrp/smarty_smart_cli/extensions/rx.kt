@@ -16,8 +16,10 @@ fun <T> Single<BaseResponse<T>>.subscribeSmart(onSuccess: (T) -> Unit,
             .subscribe({ response ->
                 if (response.result != null) {
                     onSuccess.invoke(response.result)
-                } else if (response.errorCode != 0 && response.errorMessage != null) {
-                    onError.invoke(response.errorCode!!, response.errorMessage)
+                } else if (response.errorCode != null
+                        && response.errorCode != 0
+                        && response.errorMessage != null) {
+                    onError.invoke(response.errorCode, response.errorMessage)
                 }
             }, {
                 onError.invoke(666, it.message ?: "Unknown error")
@@ -30,8 +32,10 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(onSuccess: (T) -> Unit,
             .subscribe({ response ->
                 if (response.result != null) {
                     onSuccess.invoke(response.result)
-                } else if (response.errorCode != 0 && response.errorMessage != null) {
-                    onError.invoke(response.errorCode!!, response.errorMessage)
+                } else if (response.errorCode != null
+                        && response.errorCode != 0
+                        && response.errorMessage != null) {
+                    onError.invoke(response.errorCode, response.errorMessage)
                 }
             }, {
                 onError.invoke(666, it.message ?: "Unknown error")

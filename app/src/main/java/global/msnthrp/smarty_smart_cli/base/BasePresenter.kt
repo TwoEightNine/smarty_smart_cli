@@ -14,7 +14,7 @@ abstract class BasePresenter<M, V: MvpLceView<M>>(protected open val prefs: Pref
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
-    protected fun updateToken(pullToRefresh: Boolean = false) {
+    private fun updateToken(pullToRefresh: Boolean = false) {
         ifViewAttached { view ->
             view.showLoading(pullToRefresh)
             api.getSeed()

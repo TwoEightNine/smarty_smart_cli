@@ -8,11 +8,11 @@ import android.view.LayoutInflater
  * Created by msnthrp on 22/01/18.
  */
 
-abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var context: Context) : RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected val context: Context) : RecyclerView.Adapter<VH>() {
 
     open val items: ArrayList<T> = arrayListOf()
 
-    protected var inflater = LayoutInflater.from(context)
+    protected val inflater = LayoutInflater.from(context)
 
     var multiListener: OnMultiSelected? = null
 

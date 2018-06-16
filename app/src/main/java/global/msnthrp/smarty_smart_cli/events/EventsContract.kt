@@ -7,5 +7,7 @@ interface EventsContract {
 
     interface View : MvpLceView<ArrayList<Event>>
 
-    interface Presenter : MvpPresenter<View>
+    interface Presenter : MvpPresenter<View> {
+        fun loadEvents(pullToRefresh: Boolean = false)
+    }
 }

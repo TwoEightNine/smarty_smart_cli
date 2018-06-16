@@ -18,9 +18,7 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
         EventsContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
-    lateinit var pref: Prefs
-    @Inject
-    lateinit var api: ApiService
+    lateinit var injectedPresenter: EventsPresenter
 
     private val recyclerView: RecyclerView by view(R.id.recyclerView)
     private val adapter by lazy { EventsAdapter(this) }
@@ -29,7 +27,9 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events)
+        setTitle(R.string.events)
         contentView.setOnRefreshListener(this)
+        contentView.setColorSchemeResources(R.color.colorPrimary)
         initRecyclerView()
     }
 
@@ -39,7 +39,7 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
 
     override fun loadData(pullToRefresh: Boolean) = presenter.loadEvents(pullToRefresh)
 
-    override fun createPresenter() = EventsPresenter(pref, api)
+    override fun createPresenter() = injectedPresenter
 
     override fun createViewState(): LceViewState<ArrayList<Event>, EventsContract.View> {
         return ParcelableListLceViewState<ArrayList<Event>, EventsContract.View>()
@@ -55,7 +55,6 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
         super.showContent()
         contentView.isRefreshing = false
     }
-
 
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)

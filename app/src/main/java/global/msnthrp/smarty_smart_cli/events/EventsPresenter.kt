@@ -9,7 +9,7 @@ class EventsPresenter(prefs: Prefs,
                       api: ApiService)
     : BasePresenter<ArrayList<Event>, EventsContract.View>(prefs, api), EventsContract.Presenter {
 
-    fun loadEvents(pullToRefresh: Boolean = false) {
+    override fun loadEvents(pullToRefresh: Boolean) {
         ifViewAttached { view ->
             view.showLoading(pullToRefresh)
             api.getEvents()
