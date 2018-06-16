@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def appCompat = "27.1.1"
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "global.msnthrp.smarty_smart_cli"
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUILD_TIME",  "\"${getDate()}\"")
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUILD_TIME",  "\"${getDate()}\"")
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "smarty_cli-v${variant.versionName}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "com.android.support:appcompat-v7:$appCompat"
+    implementation "com.android.support:design:$appCompat"
+    implementation "com.android.support:recyclerview-v7:$appCompat"
+    implementation "com.android.support:customtabs:$appCompat"
+    implementation "com.android.support:cardview-v7:$appCompat"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    implementation "com.hannesdorfmann.mosby3:mvp:$mosbyVersion"
+    implementation "com.hannesdorfmann.mosby3:mvp-lce:$mosbyVersion"
+    implementation "com.hannesdorfmann.mosby3:viewstate:$mosbyVersion"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    compileOnly "javax.annotation:jsr250-api:$jsrVersion"
+
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
+    implementation "com.github.orangegangsters:swipy:$swipyVersion"
+    implementation "com.miguelcatalan:materialsearchview:$materialSearchViewVersion"
+    testImplementation "junit:junit:$junitVersion"
+//    implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
+//    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+}
+
+kapt {
+    generateStubs = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+static def getDate() {
+    new Date().format('yyyy/MM/dd')
+}
