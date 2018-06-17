@@ -9,4 +9,5 @@
     <color name="divider">#ddd</color>
     <color name="text_warning">#df2050</color>
     <color name="background">#fff0f0</color>
+    <color name="primary_trans">#a88e30d8</color>
 </resources>
