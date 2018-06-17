@@ -13,7 +13,18 @@ class ActionsPresenter(prefs: Prefs,
         loadActions()
     }
 
+    override fun loadState(pullToRefresh: Boolean) {
+        ifViewAttached { view ->
+            view.showLoading(pullToRefresh)
+            api.getState()
+                    .subscribeSmart({ state ->
+                        view.onStateLoaded(state)
+                    }, defaultError())
+        }
+    }
+
     override fun loadActions(pullToRefresh: Boolean) {
+        loadState(pullToRefresh)
         ifViewAttached { view ->
             view.showLoading(pullToRefresh)
             api.getActions()

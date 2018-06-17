@@ -1,6 +1,7 @@
 package global.msnthrp.smarty_smart_cli.network
 
 import global.msnthrp.smarty_smart_cli.actions.Action
+import global.msnthrp.smarty_smart_cli.actions.State
 import global.msnthrp.smarty_smart_cli.events.Event
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
 import io.reactivex.Single
@@ -21,4 +22,7 @@ interface ApiService {
 
     @GET("/supportedActions")
     fun getActions(): Single<BaseResponse<ArrayList<Action>>>
+
+    @GET("/getState")
+    fun getState(): Single<BaseResponse<State>>
 }

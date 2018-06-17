@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.TextView
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableListLceViewState
 import global.msnthrp.smarty_smart_cli.App
@@ -12,6 +13,7 @@ import global.msnthrp.smarty_smart_cli.base.BaseActivity
 import global.msnthrp.smarty_smart_cli.extensions.view
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class ActionsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Action>, ActionsContract.View, ActionsPresenter>(),
         ActionsContract.View, SwipeRefreshLayout.OnRefreshListener {
@@ -20,6 +22,8 @@ class ActionsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Action>, Acti
     lateinit var injectedPresenter: ActionsPresenter
 
     private val recyclerView: RecyclerView by view(R.id.recyclerView)
+    private val tvTemp: TextView by view(R.id.tvTemp)
+
     private val adapter by lazy { ActionsAdapter(this, ::onActionClicked) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +55,11 @@ class ActionsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Action>, Acti
 
     override fun onActionExecuted(action: Action) {
         showToast(this, "Executed ${action.name}")
+    }
+
+    override fun onStateLoaded(state: State) {
+        val temp = state.temp.toInt()
+        tvTemp.text = getString(R.string.temperature, temp, ((state.temp - temp) * 10).roundToInt())
     }
 
     override fun showContent() {
