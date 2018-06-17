@@ -1,6 +1,7 @@
 package global.msnthrp.smarty_smart_cli.actions
 
 import android.os.Bundle
+import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -22,6 +23,7 @@ class ActionsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Action>, Acti
     lateinit var injectedPresenter: ActionsPresenter
 
     private val recyclerView: RecyclerView by view(R.id.recyclerView)
+    private val nestedScrollView: NestedScrollView by view(R.id.nestedScrollView)
     private val tvTemp: TextView by view(R.id.tvTemp)
 
     private val adapter by lazy { ActionsAdapter(this, ::onActionClicked) }
@@ -36,7 +38,9 @@ class ActionsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Action>, Acti
     }
 
     override fun setData(data: ArrayList<Action>?) {
+        nestedScrollView.isSmoothScrollingEnabled = true
         adapter.update(data ?: return)
+        nestedScrollView.isSmoothScrollingEnabled = false
     }
 
     override fun loadData(pullToRefresh: Boolean) {
