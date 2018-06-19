@@ -6,7 +6,7 @@ import global.msnthrp.smarty_smart_cli.utils.time
 
 object Lg {
 
-    private const val APP_TAG = "smarty"
+    private const val APP_TAG = "qwer"
     private const val ALLOWED_LEN = 300
     val logs = arrayListOf<String>()
 

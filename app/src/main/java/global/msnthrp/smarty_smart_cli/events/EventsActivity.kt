@@ -11,6 +11,7 @@ import global.msnthrp.smarty_smart_cli.R
 import global.msnthrp.smarty_smart_cli.base.BaseActivity
 import global.msnthrp.smarty_smart_cli.extensions.view
 import global.msnthrp.smarty_smart_cli.network.ApiService
+import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.storage.Prefs
 import javax.inject.Inject
 
@@ -35,6 +36,7 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
     }
 
     override fun setData(data: ArrayList<Event>?) {
+        Lg.i("events loaded: ${data?.size} events")
         adapter.update(data ?: return)
     }
 

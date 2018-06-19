@@ -6,6 +6,7 @@ import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.state.State
 import global.msnthrp.smarty_smart_cli.network.ApiService
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
+import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.storage.Prefs
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -26,6 +27,7 @@ class MainPresenter(prefs: Prefs,
             view.showLoading(pullToRefresh)
             val actions = api.getActions()
             val state = api.getState()
+            Lg.i("load actions and state")
             Single.zip(actions, state, BiFunction {
                 a: BaseResponse<ArrayList<Action>>,
                 s: BaseResponse<State> ->
@@ -48,6 +50,7 @@ class MainPresenter(prefs: Prefs,
     override fun execute(action: Action, params: ArrayList<String>) {
         ifViewAttached { view ->
             view.showLoading(true)
+            Lg.i("execute ${action.action} with $params")
             api.execute(action.action, mapify(action, params))
                     .subscribeSmart({
                         view.showContent()

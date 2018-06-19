@@ -6,6 +6,7 @@ import global.msnthrp.smarty_smart_cli.SECRET
 import global.msnthrp.smarty_smart_cli.extensions.subscribeSmart
 import global.msnthrp.smarty_smart_cli.network.ApiService
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
+import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.storage.Prefs
 import global.msnthrp.smarty_smart_cli.utils.Cryptool
 import io.reactivex.disposables.CompositeDisposable
@@ -18,9 +19,11 @@ abstract class BasePresenter<M, V: MvpLceView<M>>(protected open val prefs: Pref
     private fun updateToken(pullToRefresh: Boolean = false) {
         ifViewAttached { view ->
             view.showLoading(pullToRefresh)
+            Lg.i("get seed")
             api.getSeed()
                     .subscribeSmart({ seed ->
                         prefs.token = Cryptool(SECRET).encrypt(seed)
+                        Lg.i("seed obtained and encrypted: ${prefs.token}")
                         onTokenUpdated()
                     }, defaultError())
         }
@@ -28,9 +31,11 @@ abstract class BasePresenter<M, V: MvpLceView<M>>(protected open val prefs: Pref
 
     protected fun defaultError(pullToRefresh: Boolean = false, block: () -> Unit = {}) = { code: Int, error: String ->
         if (code == 401) {
+            Lg.i("server returned 401")
             updateToken(pullToRefresh)
         } else {
             ifViewAttached { view ->
+                Lg.i("error occurred: $error")
                 view.showError(Throwable(wrapError(error)), pullToRefresh)
                 block.invoke()
             }

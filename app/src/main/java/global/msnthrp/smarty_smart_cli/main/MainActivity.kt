@@ -19,6 +19,7 @@ import global.msnthrp.smarty_smart_cli.extensions.view
 import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
 import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
+import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.utils.isLandscape
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
@@ -61,6 +62,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     }
 
     override fun setData(data: MainData?) {
+        Lg.i("loaded actions and state: ${data?.actions?.size} actions")
         nestedScrollView.isSmoothScrollingEnabled = true
         actionsAdapter.update(data?.actions ?: return)
         stateAdapter.update(StateAdapter.stateToPairs(data.state))
@@ -82,7 +84,8 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean) = e?.message
 
     override fun onActionExecuted(action: Action) {
-        showToast(this, "Executed ${action.name}")
+        showToast(this, "${action.name} executed")
+        Lg.i("${action.name} executed")
     }
 
     override fun showContent() {

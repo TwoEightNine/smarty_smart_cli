@@ -3,6 +3,7 @@ package global.msnthrp.smarty_smart_cli.events
 import global.msnthrp.smarty_smart_cli.base.BasePresenter
 import global.msnthrp.smarty_smart_cli.extensions.subscribeSmart
 import global.msnthrp.smarty_smart_cli.network.ApiService
+import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.storage.Prefs
 
 class EventsPresenter(prefs: Prefs,
@@ -12,6 +13,7 @@ class EventsPresenter(prefs: Prefs,
     override fun loadEvents(pullToRefresh: Boolean) {
         ifViewAttached { view ->
             view.showLoading(pullToRefresh)
+            Lg.i("load events")
             api.getEvents()
                     .subscribeSmart({ events ->
                         view.setData(events)
