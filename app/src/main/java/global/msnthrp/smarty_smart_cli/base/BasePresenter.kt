@@ -31,29 +31,31 @@ abstract class BasePresenter<M, V: MvpLceView<M>>(protected open val prefs: Pref
             updateToken(pullToRefresh)
         } else {
             ifViewAttached { view ->
-                view.showError(Throwable(error), pullToRefresh)
+                view.showError(Throwable(wrapError(error)), pullToRefresh)
                 block.invoke()
             }
         }
     }
 
-    protected fun <T1, T2, R> combineResponses(t1: BaseResponse<T1>,
+    protected inline fun <T1, T2, R> combineResponses(t1: BaseResponse<T1>,
                                                t2: BaseResponse<T2>,
                                                combiner: (T1?, T2?) -> R?): BaseResponse<R> {
         var error: Int? = null
         var errorMessage: String? = null
         when {
-            t2.errorCode != 0 -> {
+            t2.errorCode != null -> {
                 error = t2.errorCode
                 errorMessage = t2.errorMessage
             }
-            t1.errorCode != 0 -> {
+            t1.errorCode != null -> {
                 error = t1.errorCode
-                errorMessage = t2.errorMessage
+                errorMessage = t1.errorMessage
             }
         }
         return BaseResponse(combiner.invoke(t1.result, t2.result), error, errorMessage)
     }
+
+    private fun wrapError(error: String) = "$error\nTAP TO TRY AGAIN"
 
     /**
      * when token is updated we can continue executing requests

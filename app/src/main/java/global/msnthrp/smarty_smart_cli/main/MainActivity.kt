@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
@@ -18,6 +19,7 @@ import global.msnthrp.smarty_smart_cli.extensions.view
 import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
 import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
+import global.msnthrp.smarty_smart_cli.utils.isLandscape
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
 
@@ -33,8 +35,6 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
 
     private val actionsAdapter by lazy { ActionsAdapter(this, ::onActionClicked) }
     private val stateAdapter by lazy { StateAdapter(this) }
-
-    private var data: MainData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -62,8 +62,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
 
     override fun setData(data: MainData?) {
         nestedScrollView.isSmoothScrollingEnabled = true
-        this.data = data ?: return
-        actionsAdapter.update(data.actions)
+        actionsAdapter.update(data?.actions ?: return)
         stateAdapter.update(StateAdapter.stateToPairs(data.state))
         nestedScrollView.isSmoothScrollingEnabled = false
     }
@@ -78,7 +77,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
         return ParcelableDataLceViewState<MainData, MainContract.View>()
     }
 
-    override fun getData() = data
+    override fun getData() = presenter.data
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean) = e?.message
 
@@ -104,10 +103,14 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     }
 
     private fun initRecyclerViews() {
-        rvActions.layoutManager = LinearLayoutManager(this)
+        rvActions.layoutManager = GridLayoutManager(this, COLUMNS)
         rvActions.adapter = actionsAdapter
 
         rvState.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvState.adapter = stateAdapter
+    }
+
+    companion object {
+        const val COLUMNS = 2
     }
 }

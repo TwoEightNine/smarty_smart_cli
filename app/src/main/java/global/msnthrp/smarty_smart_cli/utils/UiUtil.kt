@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.drawable.GradientDrawable
 import android.support.annotation.StringRes
 import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AlertDialog
@@ -86,3 +88,6 @@ fun closeNotification(context: Context?) {
     val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     mNotifyMgr.cancel(NOTIFICATION)
 }
+
+fun isLandscape(context: Context?) =
+        context?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE

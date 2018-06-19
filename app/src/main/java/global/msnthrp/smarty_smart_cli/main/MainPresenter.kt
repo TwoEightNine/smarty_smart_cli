@@ -14,6 +14,9 @@ class MainPresenter(prefs: Prefs,
                     api: ApiService) : BasePresenter<MainData, MainContract.View>(prefs, api),
         MainContract.Presenter {
 
+    var data: MainData? = null
+        private set
+
     override fun onTokenUpdated() {
         loadData()
     }
@@ -35,6 +38,7 @@ class MainPresenter(prefs: Prefs,
                     }
                 }
             }).subscribeSmart({
+                data = it
                 view.showContent()
                 view.setData(it)
             }, defaultError(pullToRefresh))
