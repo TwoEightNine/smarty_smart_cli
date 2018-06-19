@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:textColor="@color/text_main"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/tvEvent"
+            android:fontFamily="sans-serif-condensed"
             android:textSize="15sp"
             tools:text="from 127.0.0.1" />
 
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:fontFamily="sans-serif-condensed"
             android:textColor="@color/text_other"
             android:textSize="13sp"
             tools:text="13:37" />

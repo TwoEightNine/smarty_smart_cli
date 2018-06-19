@@ -1,4 +1,4 @@
-package global.msnthrp.smarty_smart_cli.actions
+package global.msnthrp.smarty_smart_cli.main.actions
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

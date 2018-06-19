@@ -15,5 +15,5 @@ data class BaseResponse<T>(
 
         @SerializedName("message")
         @Expose
-        val errorMessage: String?
+        val errorMessage: String? = null
 )

@@ -28,6 +28,7 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events)
         setTitle(R.string.events)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         contentView.setOnRefreshListener(this)
         contentView.setColorSchemeResources(R.color.colorPrimary)
         initRecyclerView()
