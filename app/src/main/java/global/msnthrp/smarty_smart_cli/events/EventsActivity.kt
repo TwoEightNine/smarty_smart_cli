@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.TextView
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableListLceViewState
 import global.msnthrp.smarty_smart_cli.App
 import global.msnthrp.smarty_smart_cli.R
 import global.msnthrp.smarty_smart_cli.base.BaseActivity
 import global.msnthrp.smarty_smart_cli.extensions.view
-import global.msnthrp.smarty_smart_cli.network.ApiService
 import global.msnthrp.smarty_smart_cli.storage.Lg
-import global.msnthrp.smarty_smart_cli.storage.Prefs
 import javax.inject.Inject
 
 class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, EventsContract.View, EventsPresenter>(),
@@ -22,6 +21,8 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
     lateinit var injectedPresenter: EventsPresenter
 
     private val recyclerView: RecyclerView by view(R.id.recyclerView)
+    private val tvLogs: TextView by view(R.id.tvLogs)
+
     private val adapter by lazy { EventsAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
     override fun setData(data: ArrayList<Event>?) {
         Lg.i("events loaded: ${data?.size} events")
         adapter.update(data ?: return)
+        tvLogs.text = Lg.logs.joinToString("\n")
     }
 
     override fun loadData(pullToRefresh: Boolean) = presenter.loadEvents(pullToRefresh)
@@ -62,5 +64,6 @@ class EventsActivity : BaseActivity<SwipeRefreshLayout, ArrayList<Event>, Events
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+        recyclerView.isNestedScrollingEnabled = false
     }
 }

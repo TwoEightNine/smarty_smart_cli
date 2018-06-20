@@ -2,7 +2,6 @@ package global.msnthrp.smarty_smart_cli.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
 import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
 import global.msnthrp.smarty_smart_cli.storage.Lg
-import global.msnthrp.smarty_smart_cli.utils.isLandscape
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
 
@@ -32,7 +30,6 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
 
     private val rvActions: RecyclerView by view(R.id.rvActions)
     private val rvState: RecyclerView by view(R.id.rvState)
-    private val nestedScrollView: NestedScrollView by view(R.id.nestedScrollView)
 
     private val actionsAdapter by lazy { ActionsAdapter(this, ::onActionClicked) }
     private val stateAdapter by lazy { StateAdapter(this) }
@@ -63,10 +60,8 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
 
     override fun setData(data: MainData?) {
         Lg.i("loaded actions and state: ${data?.actions?.size} actions")
-        nestedScrollView.isSmoothScrollingEnabled = true
         actionsAdapter.update(data?.actions ?: return)
         stateAdapter.update(StateAdapter.stateToPairs(data.state))
-        nestedScrollView.isSmoothScrollingEnabled = false
     }
 
     override fun loadData(pullToRefresh: Boolean) {
@@ -108,6 +103,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     private fun initRecyclerViews() {
         rvActions.layoutManager = GridLayoutManager(this, COLUMNS)
         rvActions.adapter = actionsAdapter
+        rvActions.isNestedScrollingEnabled = false
 
         rvState.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvState.adapter = stateAdapter

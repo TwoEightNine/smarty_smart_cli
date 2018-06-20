@@ -12,13 +12,13 @@ object Lg {
 
     fun i(s: String) {
         Log.i(APP_TAG, s)
-        logs.add("[${getTime(time())}] $s")
+        logs.add("[${getTime(time(), full = true, format = "HH:mm:ss")}] $s")
         truncate()
     }
 
     fun wtf(s: String) {
         Log.wtf(APP_TAG, s)
-        logs.add("!![${getTime(time())}]!! $s")
+        logs.add("!![${getTime(time(), full = true, format = "HH:mm:ss")}]!! $s")
         truncate()
     }
 
