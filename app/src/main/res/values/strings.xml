@@ -3,4 +3,7 @@
     <string name="from_ip">from %s</string>
     <string name="temperature">%1$d.%2$d °C</string>
     <string name="events">Events</string>
+    <string name="led_color">Choose LED color</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

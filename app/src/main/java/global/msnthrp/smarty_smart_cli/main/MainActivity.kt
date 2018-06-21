@@ -1,6 +1,7 @@
 package global.msnthrp.smarty_smart_cli.main
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableDataLceViewState
 import global.msnthrp.smarty_smart_cli.App
@@ -81,6 +84,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     override fun onActionExecuted(action: Action) {
         showToast(this, "${action.name} executed")
         Lg.i("${action.name} executed")
+        onRefresh()
     }
 
     override fun showContent() {
@@ -89,15 +93,31 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     }
 
     override fun onRefresh() {
+        contentView.isRefreshing = true
         presenter.loadData(true)
     }
 
     private fun onActionClicked(action: Action) {
-        val params = arrayListOf<String>()
         if (action.action == "led") {
-            params.add("123456")
+            chooseColor(action)
+        } else {
+            presenter.execute(action)
         }
-        presenter.execute(action, params)
+    }
+
+    private fun chooseColor(action: Action) {
+        ColorPickerDialogBuilder.with(this)
+                .setTitle(R.string.led_color)
+                .initialColor(Color.WHITE)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .lightnessSliderOnly()
+                .density(12)
+                .setPositiveButton(R.string.ok) { _, color, _ ->
+                    presenter.execute(action, arrayListOf(Integer.toHexString(color).substring(2)))
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .build()
+                .show()
     }
 
     private fun initRecyclerViews() {

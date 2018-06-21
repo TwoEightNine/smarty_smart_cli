@@ -18,5 +18,13 @@ data class State(
 
         @SerializedName("water_fullness")
         @Expose
-        val waterFullness: Int
+        val waterFullness: Int,
+
+        @SerializedName("teapot")
+        @Expose
+        val teapot: Boolean,
+
+        @SerializedName("light")
+        @Expose
+        val light: Boolean
 ) : Parcelable

@@ -30,6 +30,8 @@ class StateAdapter(context: Context) : BaseAdapter<Pair<String, String>, StateAd
             result.add(Pair("Air temp, °C", "${state.airTemp}"))
             result.add(Pair("Water temp, °C", "${state.waterTemp}"))
             result.add(Pair("Water fullness, %", "${state.waterFullness}"))
+            result.add(Pair("Teapot", if (state.teapot) "ON" else "OFF"))
+            result.add(Pair("Light", if (state.light) "ON" else "OFF"))
             return result
         }
     }
