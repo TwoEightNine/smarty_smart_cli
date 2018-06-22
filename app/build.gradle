@@ -47,6 +47,8 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$appCompat"
 //    implementation "com.android.support:customtabs:$appCompat"
     implementation "com.android.support:cardview-v7:$appCompat"
+    implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
+    implementation "com.google.firebase:firebase-core:16.0.1"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -97,3 +99,5 @@ repositories {
 static def getDate() {
     new Date().format('yyyy/MM/dd')
 }
+
+apply plugin: 'com.google.gms.google-services'

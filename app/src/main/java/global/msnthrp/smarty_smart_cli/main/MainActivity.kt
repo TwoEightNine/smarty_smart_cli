@@ -22,6 +22,7 @@ import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
 import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
 import global.msnthrp.smarty_smart_cli.storage.Lg
+import global.msnthrp.smarty_smart_cli.utils.closeNotifications
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
 
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
         contentView.setOnRefreshListener(this)
         contentView.setColorSchemeResources(R.color.colorPrimary)
         initRecyclerViews()
+        closeNotifications(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

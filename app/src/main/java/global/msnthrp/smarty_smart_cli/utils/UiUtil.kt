@@ -4,15 +4,17 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.drawable.GradientDrawable
+import android.graphics.BitmapFactory
 import android.support.annotation.StringRes
 import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AlertDialog
-import android.text.Html
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import global.msnthrp.smarty_smart_cli.R
+import global.msnthrp.smarty_smart_cli.main.MainActivity
 
 /**
  * Created by msnthrp on 22/01/18.
@@ -60,33 +62,40 @@ fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
 }
 
 fun showNotification(context: Context?,
-                     content: String?,
                      title: String?,
-                     icon: Bitmap) {
+                     message: String?,
+                     timeStamp: Long = 0L,
+                     largeIcon: Bitmap = BitmapFactory.decodeResource(context?.resources, R.mipmap.brain64)) {
     if (context == null) return
 
-    val intent = getRestartIntent(context)
+    val intent = Intent(context, MainActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+            Intent.FLAG_ACTIVITY_SINGLE_TOP
     val pIntent = PendingIntent.getActivity(
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_CANCEL_CURRENT
     )
     val mBuilder = NotificationCompat.Builder(context)
-            .setLargeIcon(icon)
+            .setWhen(timeStamp)
+            .setAutoCancel(true)
+            .setSmallIcon(R.mipmap.brain64)
+            .setLargeIcon(largeIcon)
             .setContentTitle(title)
-            .setContentText(Html.fromHtml(content))
+            .setContentText(message)
             .setContentIntent(pIntent)
 
     val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    mNotifyMgr.notify(NOTIFICATION, mBuilder.build())
+    mNotifyMgr.notify(timeStamp.toInt().rem(Int.MAX_VALUE), mBuilder.build())
 }
 
-fun closeNotification(context: Context?) {
+fun closeNotifications(context: Context?) {
     if (context == null) return
 
     val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    mNotifyMgr.cancel(NOTIFICATION)
+    mNotifyMgr.cancelAll()
 }
 
 fun isLandscape(context: Context?) =

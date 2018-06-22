@@ -12,6 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath 'com.google.gms:google-services:4.0.0'
         classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
@@ -50,4 +51,5 @@ ext {
     colorpickerVersion = '0.0.13'
     glideVersion = '4.0.0'
     mosbyVersion = '3.1.0'
+    firebaseVersion = '17.0.0'
 }

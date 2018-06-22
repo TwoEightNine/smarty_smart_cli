@@ -1,8 +1,8 @@
 package global.msnthrp.smarty_smart_cli.network
 
+import global.msnthrp.smarty_smart_cli.events.Event
 import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.state.State
-import global.msnthrp.smarty_smart_cli.events.Event
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
 import io.reactivex.Single
 import retrofit2.http.*
@@ -25,4 +25,8 @@ interface ApiService {
 
     @GET("/getState")
     fun getState(): Single<BaseResponse<State>>
+
+    @FormUrlEncoded
+    @POST("/registerToken")
+    fun registerToken(@Field("fcmToken") token: String): Single<BaseResponse<Int>>
 }
