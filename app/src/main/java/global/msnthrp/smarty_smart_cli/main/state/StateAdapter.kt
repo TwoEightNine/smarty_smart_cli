@@ -1,6 +1,7 @@
 package global.msnthrp.smarty_smart_cli.main.state
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +21,22 @@ class StateAdapter(context: Context) : BaseAdapter<Pair<String, String>, StateAd
 
         with(holder) {
             tvName.text = pair.first
-            tvValue.text = pair.second
+
+            if (pair.second.startsWith("0x")) {
+                val color = pair.second.substring(2)
+                val intColor = Integer.parseInt(color, 16) or (0xff shl 24)
+                tvValue.setTextColor(intColor)
+                tvValue.text = BRICKS
+            } else {
+                tvValue.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                tvValue.text = pair.second
+            }
         }
     }
 
     companion object {
+        const val BRICKS = "███"
+
         fun stateToPairs(state: State): ArrayList<Pair<String, String>> {
             val result = arrayListOf<Pair<String, String>>()
             result.add(Pair("Air temp, °C", "${state.airTemp}"))
@@ -32,6 +44,7 @@ class StateAdapter(context: Context) : BaseAdapter<Pair<String, String>, StateAd
             result.add(Pair("Water fullness, %", "${state.waterFullness}"))
             result.add(Pair("Teapot", if (state.teapot) "ON" else "OFF"))
             result.add(Pair("Light", if (state.light) "ON" else "OFF"))
+            result.add(Pair("LED", "0x${state.led}"))
             return result
         }
     }

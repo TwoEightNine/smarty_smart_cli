@@ -26,5 +26,9 @@ data class State(
 
         @SerializedName("light")
         @Expose
-        val light: Boolean
+        val light: Boolean,
+
+        @SerializedName("led")
+        @Expose
+        val led: String
 ) : Parcelable
