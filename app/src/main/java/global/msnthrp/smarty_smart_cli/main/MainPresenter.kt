@@ -1,5 +1,6 @@
 package global.msnthrp.smarty_smart_cli.main
 
+import android.content.Context
 import global.msnthrp.smarty_smart_cli.base.BasePresenter
 import global.msnthrp.smarty_smart_cli.extensions.subscribeSmart
 import global.msnthrp.smarty_smart_cli.main.actions.Action
@@ -12,7 +13,8 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
 class MainPresenter(prefs: Prefs,
-                    api: ApiService) : BasePresenter<MainData, MainContract.View>(prefs, api),
+                    api: ApiService,
+                    context: Context) : BasePresenter<MainData, MainContract.View>(prefs, api, context),
         MainContract.Presenter {
 
     var data: MainData? = null

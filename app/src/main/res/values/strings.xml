@@ -6,4 +6,5 @@
     <string name="led_color">Choose LED color</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="try_again">TAP TO TRY AGAIN</string>
 </resources>
