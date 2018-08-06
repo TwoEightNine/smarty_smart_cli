@@ -84,8 +84,8 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean) = e?.message
 
     override fun onActionExecuted(action: Action) {
-        showToast(this, "${action.name} executed")
-        Lg.i("${action.name} executed")
+        showToast(this, "Request sent: ${action.name}")
+        Lg.i("${action.name} sent as a request")
         onRefresh()
     }
 
