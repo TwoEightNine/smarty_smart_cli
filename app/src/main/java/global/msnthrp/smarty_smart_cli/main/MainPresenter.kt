@@ -33,14 +33,7 @@ class MainPresenter(prefs: Prefs,
             Single.zip(actions, state, BiFunction {
                 a: BaseResponse<ArrayList<Action>>,
                 s: BaseResponse<State> ->
-                combineResponses(a, s) {
-                    aRes, sRes ->
-                    if (aRes == null || sRes == null) {
-                        null
-                    } else {
-                        MainData(sRes, aRes)
-                    }
-                }
+                combineResponses(a, s, combiner())
             }).subscribeSmart({
                 data = it
                 view.showContent()
@@ -58,6 +51,15 @@ class MainPresenter(prefs: Prefs,
                         view.showContent()
                         view.onActionExecuted(action)
                     }, defaultError())
+        }
+    }
+
+    private inline fun combiner(): (ArrayList<Action>?, State?) -> MainData? = {
+        aRes, sRes ->
+        if (aRes == null || sRes == null) {
+            null
+        } else {
+            MainData(sRes, aRes)
         }
     }
 
