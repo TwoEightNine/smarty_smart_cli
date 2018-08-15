@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlinVersion = '1.2.50'
+        kotlinVersion = '1.2.60'
         gradleVersion = '3.0.1'
         realmVersion = '3.5.0'
         aptVersion = '1.8'
@@ -13,7 +13,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.0.0'
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -51,5 +51,5 @@ ext {
     colorpickerVersion = '0.0.13'
     glideVersion = '4.0.0'
     mosbyVersion = '3.1.0'
-    firebaseVersion = '17.0.0'
+    firebaseVersion = '17.3.0'
 }
