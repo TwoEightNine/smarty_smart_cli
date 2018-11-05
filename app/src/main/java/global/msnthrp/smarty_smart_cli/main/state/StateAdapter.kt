@@ -39,12 +39,14 @@ class StateAdapter(context: Context) : BaseAdapter<Pair<String, String>, StateAd
 
         fun stateToPairs(state: State): ArrayList<Pair<String, String>> {
             val result = arrayListOf<Pair<String, String>>()
-            result.add(Pair("Air temp, °C", "${state.airTemp}"))
-            result.add(Pair("Water temp, °C", "${state.waterTemp}"))
-            result.add(Pair("Water fullness, %", "${state.waterFullness}"))
-            result.add(Pair("Teapot", if (state.teapot) "ON" else "OFF"))
+//            result.add(Pair("Air temp, °C", "${state.airTemp}"))
+//            result.add(Pair("Water temp, °C", "${state.waterTemp}"))
+//            result.add(Pair("Water fullness, %", "${state.waterFullness}"))
+//            result.add(Pair("Teapot", if (state.teapot) "ON" else "OFF"))
             result.add(Pair("Light", if (state.light) "ON" else "OFF"))
-            result.add(Pair("LED", "0x${state.led}"))
+            result.add(Pair("RGB", if (state.rgb) "ON" else "OFF"))
+            result.add(Pair("Amplifier", if (state.amplifier) "ON" else "OFF"))
+//            result.add(Pair("LED", "0x${state.led}"))
             return result
         }
     }
