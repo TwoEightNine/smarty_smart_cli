@@ -2,6 +2,7 @@ package global.msnthrp.smarty_smart_cli.network
 
 import global.msnthrp.smarty_smart_cli.events.Event
 import global.msnthrp.smarty_smart_cli.main.actions.Action
+import global.msnthrp.smarty_smart_cli.main.features.Feature
 import global.msnthrp.smarty_smart_cli.main.state.State
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
 import io.reactivex.Single
@@ -20,11 +21,8 @@ interface ApiService {
     fun execute(@Field("action") action: String,
                 @FieldMap params: Map<String, String>): Single<BaseResponse<Int>>
 
-    @GET("/getActions")
-    fun getActions(): Single<BaseResponse<ArrayList<Action>>>
-
-    @GET("/getState")
-    fun getState(): Single<BaseResponse<State>>
+    @GET("/getFeatures")
+    fun getFeatures(): Single<BaseResponse<ArrayList<Feature>>>
 
     @FormUrlEncoded
     @POST("/registerToken")

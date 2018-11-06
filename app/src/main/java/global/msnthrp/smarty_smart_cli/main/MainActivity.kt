@@ -9,10 +9,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableDataLceViewState
+import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableListLceViewState
 import global.msnthrp.smarty_smart_cli.App
 import global.msnthrp.smarty_smart_cli.R
 import global.msnthrp.smarty_smart_cli.base.BaseActivity
@@ -20,28 +22,28 @@ import global.msnthrp.smarty_smart_cli.events.EventsActivity
 import global.msnthrp.smarty_smart_cli.extensions.view
 import global.msnthrp.smarty_smart_cli.main.actions.Action
 import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
+import global.msnthrp.smarty_smart_cli.main.features.Feature
+import global.msnthrp.smarty_smart_cli.main.features.FeaturesAdapter
 import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
 import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.utils.closeNotifications
 import global.msnthrp.smarty_smart_cli.utils.showToast
 import javax.inject.Inject
 
-class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.View, MainPresenter>(),
+class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContract.View, MainPresenter>(),
         MainContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var injectedPresenter: MainPresenter
 
-    private val rvActions: RecyclerView by view(R.id.rvActions)
-    private val rvState: RecyclerView by view(R.id.rvState)
+    private val rvFeatures: RecyclerView by view(R.id.rvFeatures)
 
-    private val actionsAdapter by lazy { ActionsAdapter(this, ::onActionClicked) }
-    private val stateAdapter by lazy { StateAdapter(this) }
+    private val adapter: FeaturesAdapter by lazy { FeaturesAdapter(this, ::onClick) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_actions)
+        setContentView(R.layout.activity_main)
         contentView.setOnRefreshListener(this)
         contentView.setColorSchemeResources(R.color.colorPrimary)
         initRecyclerViews()
@@ -63,10 +65,9 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
         }
     }
 
-    override fun setData(data: MainData?) {
-        Lg.i("loaded actions and state: ${data?.actions?.size} actions")
-        actionsAdapter.update(data?.actions ?: return)
-        stateAdapter.update(StateAdapter.stateToPairs(data.state))
+    override fun setData(data: List<Feature>?) {
+        Lg.i("loaded features: ${data?.size} actions")
+        adapter.update(data ?: return)
     }
 
     override fun loadData(pullToRefresh: Boolean) {
@@ -75,17 +76,17 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
 
     override fun createPresenter() = injectedPresenter
 
-    override fun createViewState(): LceViewState<MainData, MainContract.View> {
-        return ParcelableDataLceViewState<MainData, MainContract.View>()
+    override fun createViewState(): LceViewState<List<Feature>, MainContract.View> {
+        return ParcelableListLceViewState<List<Feature>, MainContract.View>()
     }
 
     override fun getData() = presenter.data
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean) = e?.message
 
-    override fun onActionExecuted(action: Action) {
-        showToast(this, "Request sent: ${action.name}")
-        Lg.i("${action.name} sent as a request")
+    override fun onFeatureExecuted(feature: Feature) {
+        showToast(this, "Request sent: ${feature.name}")
+        Lg.i("${feature.name} sent as a request")
         onRefresh()
     }
 
@@ -99,15 +100,12 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
         presenter.loadData(true)
     }
 
-    private fun onActionClicked(action: Action) {
-        if (action.action == "led") {
-            chooseColor(action)
-        } else {
-            presenter.execute(action)
-        }
+    private fun onClick(feature: Feature) {
+        if (feature.action == null) return
+        presenter.execute(feature)
     }
 
-    private fun chooseColor(action: Action) {
+    private fun chooseColor(feature: Feature) {
         ColorPickerDialogBuilder.with(this)
                 .setTitle(R.string.led_color)
                 .initialColor(Color.WHITE)
@@ -115,7 +113,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
                 .lightnessSliderOnly()
                 .density(12)
                 .setPositiveButton(R.string.ok) { _, color, _ ->
-                    presenter.execute(action, arrayListOf(Integer.toHexString(color).substring(2)))
+                    presenter.execute(feature, arrayListOf(Integer.toHexString(color).substring(2)))
                 }
                 .setNegativeButton(R.string.cancel, null)
                 .build()
@@ -123,12 +121,8 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, MainData, MainContract.Vie
     }
 
     private fun initRecyclerViews() {
-        rvActions.layoutManager = GridLayoutManager(this, COLUMNS)
-        rvActions.adapter = actionsAdapter
-        rvActions.isNestedScrollingEnabled = false
-
-        rvState.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvState.adapter = stateAdapter
+        rvFeatures.layoutManager = GridLayoutManager(this, COLUMNS)
+        rvFeatures.adapter = adapter
     }
 
     companion object {

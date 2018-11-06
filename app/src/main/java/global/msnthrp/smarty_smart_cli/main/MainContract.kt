@@ -2,16 +2,16 @@ package global.msnthrp.smarty_smart_cli.main
 
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter
 import com.hannesdorfmann.mosby3.mvp.lce.MvpLceView
-import global.msnthrp.smarty_smart_cli.main.actions.Action
+import global.msnthrp.smarty_smart_cli.main.features.Feature
 
 interface MainContract {
 
-    interface View : MvpLceView<MainData> {
-        fun onActionExecuted(action: Action)
+    interface View : MvpLceView<List<Feature>> {
+        fun onFeatureExecuted(feature: Feature)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun loadData(pullToRefresh: Boolean = false)
-        fun execute(action: Action, params: ArrayList<String> = arrayListOf())
+        fun execute(feature: Feature, params: ArrayList<String> = arrayListOf())
     }
 }
