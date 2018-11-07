@@ -9,7 +9,7 @@
     <color name="divider">#ddd</color>
     <color name="text_warning">#df2050</color>
     <color name="background">#fff7f7</color>
-    <color name="primary_trans">#a88e30d8</color>
+    <color name="primary_trans">#c08e30d8</color>
     <color name="primary_trans_light">#ab8e70f8</color>
     <color name="icons">#fff</color>
 </resources>
