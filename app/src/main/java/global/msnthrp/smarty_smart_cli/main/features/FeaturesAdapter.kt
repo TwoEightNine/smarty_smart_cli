@@ -1,6 +1,7 @@
 package global.msnthrp.smarty_smart_cli.main.features
 
 import android.content.Context
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -36,12 +37,13 @@ class FeaturesAdapter(context: Context,
 
     inner class FeatureViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        val cardView: CardView by view(R.id.cardView)
         val tvName: TextView by view(R.id.tvName)
         val tvValue: TextView by view(R.id.tvValue)
         val ivBackground: ImageView by view(R.id.ivBackground)
 
         init {
-            view.setOnClickListener { onClick.invoke(items[adapterPosition]) }
+            cardView.setOnClickListener { onClick.invoke(items[adapterPosition]) }
         }
     }
 }
