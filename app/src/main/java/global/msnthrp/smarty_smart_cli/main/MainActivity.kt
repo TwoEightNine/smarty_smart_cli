@@ -3,7 +3,6 @@ package global.msnthrp.smarty_smart_cli.main
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.google.firebase.iid.FirebaseInstanceId
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableListLceViewState
 import global.msnthrp.smarty_smart_cli.App
@@ -133,7 +131,7 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
 
     private fun onIpChanged(ip: String) {
         prefs.ip = ip
-        Handler().post { FirebaseInstanceId.getInstance().deleteInstanceId() }
+//        Handler().post { FirebaseInstanceId.getInstance().deleteInstanceId() }
         restartApp(this)
     }
 

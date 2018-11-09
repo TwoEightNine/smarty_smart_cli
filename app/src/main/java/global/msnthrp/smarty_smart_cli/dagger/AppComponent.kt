@@ -8,6 +8,7 @@ import global.msnthrp.smarty_smart_cli.events.EventsActivity
 import global.msnthrp.smarty_smart_cli.main.MainActivity
 import global.msnthrp.smarty_smart_cli.utils.firebase.MyFirebaseInstanceIdService
 import global.msnthrp.smarty_smart_cli.utils.firebase.MyFirebaseMessagingService
+import global.msnthrp.smarty_smart_cli.views.InputSessionAlertDialog
 import javax.inject.Singleton
 
 @Singleton
@@ -18,4 +19,5 @@ interface AppComponent {
     fun inject(actionsActivity: MainActivity)
     fun inject(myFirebaseInstanceIdService: MyFirebaseInstanceIdService)
     fun inject(myFirebaseMessagingService: MyFirebaseMessagingService)
+    fun inject(inputSessionAlertDialog: InputSessionAlertDialog)
 }
