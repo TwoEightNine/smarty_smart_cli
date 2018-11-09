@@ -15,8 +15,6 @@ class App : Application() {
     }
 
     companion object {
-
         lateinit var appComponent: AppComponent
-        const val URL = "http://46.0.2.113:1753"
     }
 }

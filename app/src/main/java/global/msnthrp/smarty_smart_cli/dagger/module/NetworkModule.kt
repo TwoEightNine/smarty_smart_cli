@@ -2,7 +2,6 @@ package global.msnthrp.smarty_smart_cli.dagger.module
 
 import dagger.Module
 import dagger.Provides
-import global.msnthrp.smarty_smart_cli.App
 import global.msnthrp.smarty_smart_cli.BuildConfig
 import global.msnthrp.smarty_smart_cli.network.ApiService
 import global.msnthrp.smarty_smart_cli.storage.Prefs
@@ -52,16 +51,20 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNetwork(client: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideNetwork(client: OkHttpClient, myIp: MyIp): Retrofit = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(App.URL)
+            .baseUrl(myIp.value)
             .client(client)
             .build()
 
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyIp(prefs: Prefs): MyIp = MyIp(prefs)
 
 
     inner class AuthInterceptor(private val prefs: Prefs) : Interceptor {
@@ -80,5 +83,9 @@ class NetworkModule {
                     .build()
             return chain.proceed(request)
         }
+    }
+
+    inner class MyIp(prefs: Prefs) {
+        val value: String = "http://${prefs.ip}:1753"
     }
 }

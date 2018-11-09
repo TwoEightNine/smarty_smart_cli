@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.Intent.*
 import android.net.ConnectivityManager
 import android.os.Handler
+import android.support.annotation.StringRes
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,6 +33,11 @@ fun <T> applySchedulersFlowable() = { flowable: Flowable<T> ->
     flowable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+}
+
+fun restartApp(context: Context, @StringRes titleId: Int) {
+    showToast(context, titleId)
+    Handler().postDelayed({ restartApp(context) }, 800L)
 }
 
 fun restartApp(context: Context, title: String) {

@@ -3,31 +3,30 @@ package global.msnthrp.smarty_smart_cli.main
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
-import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableDataLceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.ParcelableListLceViewState
 import global.msnthrp.smarty_smart_cli.App
 import global.msnthrp.smarty_smart_cli.R
 import global.msnthrp.smarty_smart_cli.base.BaseActivity
 import global.msnthrp.smarty_smart_cli.events.EventsActivity
 import global.msnthrp.smarty_smart_cli.extensions.view
-import global.msnthrp.smarty_smart_cli.main.actions.Action
-import global.msnthrp.smarty_smart_cli.main.actions.ActionsAdapter
 import global.msnthrp.smarty_smart_cli.main.features.Feature
 import global.msnthrp.smarty_smart_cli.main.features.FeaturesAdapter
-import global.msnthrp.smarty_smart_cli.main.state.StateAdapter
 import global.msnthrp.smarty_smart_cli.storage.Lg
+import global.msnthrp.smarty_smart_cli.storage.Prefs
 import global.msnthrp.smarty_smart_cli.utils.closeNotifications
+import global.msnthrp.smarty_smart_cli.utils.restartApp
 import global.msnthrp.smarty_smart_cli.utils.showToast
+import global.msnthrp.smarty_smart_cli.views.InputSessionAlertDialog
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContract.View, MainPresenter>(),
@@ -35,6 +34,9 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
 
     @Inject
     lateinit var injectedPresenter: MainPresenter
+
+    @Inject
+    lateinit var prefs: Prefs
 
     private val rvFeatures: RecyclerView by view(R.id.rvFeatures)
 
@@ -59,6 +61,10 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
         return when (item?.itemId) {
             R.id.menuEvents -> {
                 startActivity(Intent(this, EventsActivity::class.java))
+                true
+            }
+            R.id.menuNetwork -> {
+                InputSessionAlertDialog(this, ::onIpChanged).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -123,6 +129,12 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
     private fun initRecyclerViews() {
         rvFeatures.layoutManager = GridLayoutManager(this, COLUMNS)
         rvFeatures.adapter = adapter
+    }
+
+    private fun onIpChanged(ip: String) {
+        prefs.ip = ip
+        Handler().post { FirebaseInstanceId.getInstance().deleteInstanceId() }
+        restartApp(this)
     }
 
     companion object {

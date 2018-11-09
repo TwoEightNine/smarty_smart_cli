@@ -14,9 +14,15 @@ class Prefs @Inject constructor(private val context: Context) {
         get() = prefs.getString(TOKEN, "")
         set(value) = prefs.edit().putString(TOKEN, value).apply()
 
+    var ip: String
+        get() = prefs.getString(IP, DEFAULT_IP)
+        set(value) = prefs.edit().putString(IP, value).apply()
+
     companion object {
         const val NAME = "prefs"
 
         const val TOKEN = "token"
+        const val IP = "ip"
+        const val DEFAULT_IP = "82.13.52.38"
     }
 }

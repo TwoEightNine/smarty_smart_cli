@@ -7,6 +7,7 @@ import global.msnthrp.smarty_smart_cli.dagger.module.PresenterModule
 import global.msnthrp.smarty_smart_cli.events.EventsActivity
 import global.msnthrp.smarty_smart_cli.main.MainActivity
 import global.msnthrp.smarty_smart_cli.utils.firebase.MyFirebaseInstanceIdService
+import global.msnthrp.smarty_smart_cli.utils.firebase.MyFirebaseMessagingService
 import javax.inject.Singleton
 
 @Singleton
@@ -16,4 +17,5 @@ interface AppComponent {
     fun inject(eventsActivity: EventsActivity)
     fun inject(actionsActivity: MainActivity)
     fun inject(myFirebaseInstanceIdService: MyFirebaseInstanceIdService)
+    fun inject(myFirebaseMessagingService: MyFirebaseMessagingService)
 }

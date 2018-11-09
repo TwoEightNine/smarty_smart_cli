@@ -3,8 +3,12 @@
     <string name="from_ip">from %s</string>
     <string name="temperature">%1$d.%2$d °C</string>
     <string name="events">Events</string>
+    <string name="network">Network</string>
     <string name="led_color">Choose LED color</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="try_again">TAP TO TRY AGAIN</string>
+    <string name="ip_changed">Smarty\'s IP has changed</string>
+    <string name="ip_title">New IP</string>
+    <string name="invalid_ip">Invalid IP</string>
 </resources>

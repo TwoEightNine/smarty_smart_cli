@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "962676567988",
+    "firebase_url": "https://smartycli-769df.firebaseio.com",
+    "project_id": "smartycli-769df",
+    "storage_bucket": "smartycli-769df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962676567988:android:bf282cb1c8c928bb",
+        "android_client_info": {
+          "package_name": "global.msnthrp.smarty_smart_cli"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962676567988-9ljllsn1j93qjomn9ba3be2q58nf5c1h.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "962676567988-9ljllsn1j93qjomn9ba3be2q58nf5c1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_39ORmqO4FWXU4ntCK-_T-2SpSms0010"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
