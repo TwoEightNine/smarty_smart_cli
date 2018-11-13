@@ -24,6 +24,7 @@ import global.msnthrp.smarty_smart_cli.storage.Prefs
 import global.msnthrp.smarty_smart_cli.utils.closeNotifications
 import global.msnthrp.smarty_smart_cli.utils.restartApp
 import global.msnthrp.smarty_smart_cli.utils.showToast
+import global.msnthrp.smarty_smart_cli.views.ColorAlertDialog
 import global.msnthrp.smarty_smart_cli.views.InputSessionAlertDialog
 import javax.inject.Inject
 
@@ -89,7 +90,6 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean) = e?.message
 
     override fun onFeatureExecuted(feature: Feature) {
-        showToast(this, "Request sent: ${feature.name}")
         Lg.i("${feature.name} sent as a request")
         onRefresh()
     }
@@ -115,18 +115,9 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
     }
 
     private fun chooseColor(feature: Feature) {
-        ColorPickerDialogBuilder.with(this)
-                .setTitle(R.string.led_color)
-                .initialColor(Color.WHITE)
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .lightnessSliderOnly()
-                .density(12)
-                .setPositiveButton(R.string.ok) { _, color, _ ->
-                    presenter.execute(feature, arrayListOf(Integer.toHexString(color).substring(2)))
-                }
-                .setNegativeButton(R.string.cancel, null)
-                .build()
-                .show()
+        ColorAlertDialog(this, feature.value) {
+            presenter.execute(feature, arrayListOf(it))
+        }.show()
     }
 
     private fun initRecyclerViews() {
