@@ -27,4 +27,8 @@ data class Feature(
         @SerializedName("thumb")
         @Expose
         val thumb: String? = null
-) : Parcelable
+) : Parcelable {
+        companion object {
+            const val ACTION_RGB = "rgb"
+        }
+}

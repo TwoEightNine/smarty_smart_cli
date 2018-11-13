@@ -1,6 +1,8 @@
 package global.msnthrp.smarty_smart_cli.main.features
 
 import android.content.Context
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -26,13 +28,25 @@ class FeaturesAdapter(context: Context,
 
         with(holder) {
             tvName.text = feature.name
-            tvValue.text = feature.value
+            with(tvValue) {
+                if (feature.action == Feature.ACTION_RGB) {
+                    text = BRICKS
+                    setTextColor(Integer.parseInt(feature.value, 16) or (0xff shl 24))
+                } else {
+                    text = feature.value
+                    setTextColor(Color.WHITE)
+                }
+            }
             if (!feature.thumb.isNullOrBlank()) {
                 Picasso.with(context)
                         .load(feature.thumb)
                         .into(ivBackground)
             }
         }
+    }
+
+    companion object {
+        const val BRICKS = "███"
     }
 
     inner class FeatureViewHolder(view: View) : RecyclerView.ViewHolder(view) {

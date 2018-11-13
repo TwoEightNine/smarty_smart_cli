@@ -106,7 +106,12 @@ class MainActivity : BaseActivity<SwipeRefreshLayout, List<Feature>, MainContrac
 
     private fun onClick(feature: Feature) {
         if (feature.action == null) return
-        presenter.execute(feature)
+
+        when(feature.action) {
+            Feature.ACTION_RGB -> chooseColor(feature)
+            else -> presenter.execute(feature)
+        }
+
     }
 
     private fun chooseColor(feature: Feature) {
