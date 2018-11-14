@@ -20,4 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="48dp" />
 
+    <TextView
+        android:textColor="@color/text_main"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:textAllCaps="true"
+        android:id="@+id/tvBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/turn_off_rgb" />
+
 </LinearLayout>

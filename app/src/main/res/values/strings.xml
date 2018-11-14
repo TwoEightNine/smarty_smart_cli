@@ -11,4 +11,5 @@
     <string name="ip_changed">Smarty\'s IP has changed</string>
     <string name="ip_title">New IP</string>
     <string name="invalid_ip">Invalid IP</string>
+    <string name="turn_off_rgb">Turn off</string>
 </resources>
