@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
+import com.flask.colorpicker.Utils
 import com.squareup.picasso.Picasso
 import global.msnthrp.smarty_smart_cli.R
 import global.msnthrp.smarty_smart_cli.base.BaseAdapter
@@ -31,7 +32,13 @@ class FeaturesAdapter(context: Context,
             with(tvValue) {
                 if (feature.action == Feature.ACTION_RGB) {
                     text = BRICKS
-                    setTextColor(Integer.parseInt(feature.value, 16) or (0xff shl 24))
+                    val color = Integer.parseInt(feature.value, 16) or (0xff shl 24)
+                    val shColor = if (color == Color.BLACK) {
+                        Color.BLACK
+                    } else {
+                        Utils.colorAtLightness(color, 1f)
+                    }
+                    setTextColor(shColor)
                 } else {
                     text = feature.value
                     setTextColor(Color.WHITE)
