@@ -3,37 +3,44 @@ package global.msnthrp.smarty_smart_cli.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
+import kotlin.math.sqrt
 
 class NonLinearSeekBar : SeekBar {
 
     companion object {
         const val OUT_MAX = 1f
 
-        const val X_AVG = 8
+        const val X_AVG = 8f
         const val Y_AVG = .25f
 
-        const val X_MAX = 16
+        const val X_MAX = 16f
         const val Y_MAX = 1f
-
     }
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    private val a = (Y_AVG * X_MAX - Y_MAX * X_AVG) / (X_AVG * X_MAX * (X_AVG - X_MAX))
-    private val b = Y_MAX / X_MAX - a * X_MAX
-
-    private val aInv = (X_AVG * Y_MAX - X_MAX * Y_AVG) / (Y_AVG * Y_MAX * (Y_AVG - Y_MAX))
-    private val bInv = X_MAX / Y_MAX - aInv * Y_MAX
+    private val poly = Polynomial(X_AVG, X_MAX, Y_AVG, Y_MAX)
 
     var progress: Float = OUT_MAX
-        get() = f(getProgress())
+        get() = poly.f(getProgress())
         set(value) {
-            setProgress(fInv(value).toInt())
+            setProgress(poly.fInv(value).toInt())
             field = value
         }
 
-    private fun f(x: Int) = a * x * x + b * x
+    class Polynomial(
+            xAvg: Float,
+            xMax: Float,
+            yAvg: Float,
+            yMax: Float
+    ) {
 
-    private fun fInv(y: Float) = aInv * y * y + bInv * y
+        private val a = (yAvg * xMax - yMax * xAvg) / (xAvg * xMax * (xAvg - xMax))
+        private val b = yMax / xMax - a * xMax
+
+        fun f(x: Int) = a * x * x + b * x
+
+        fun fInv(y: Float) = (sqrt(b * b + 4 * a * y) - b) / (2 * a)
+    }
 }
