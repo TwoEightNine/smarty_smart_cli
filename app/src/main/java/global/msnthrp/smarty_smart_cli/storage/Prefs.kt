@@ -23,6 +23,6 @@ class Prefs @Inject constructor(private val context: Context) {
 
         const val TOKEN = "token"
         const val IP = "ip"
-        const val DEFAULT_IP = "82.13.52.38"
+        const val DEFAULT_IP = "0.0.0.0"
     }
 }

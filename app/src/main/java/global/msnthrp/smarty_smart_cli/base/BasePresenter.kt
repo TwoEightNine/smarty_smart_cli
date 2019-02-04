@@ -4,13 +4,13 @@ import android.content.Context
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.hannesdorfmann.mosby3.mvp.lce.MvpLceView
 import global.msnthrp.smarty_smart_cli.R
-import global.msnthrp.smarty_smart_cli.SECRET
 import global.msnthrp.smarty_smart_cli.extensions.subscribeSmart
 import global.msnthrp.smarty_smart_cli.network.ApiService
 import global.msnthrp.smarty_smart_cli.network.model.BaseResponse
 import global.msnthrp.smarty_smart_cli.storage.Lg
 import global.msnthrp.smarty_smart_cli.storage.Prefs
 import global.msnthrp.smarty_smart_cli.utils.Cryptool
+import global.msnthrp.smarty_smart_cli.utils.SECRET
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BasePresenter<M, V: MvpLceView<M>>(protected open val prefs: Prefs,

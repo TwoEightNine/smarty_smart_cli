@@ -61,7 +61,6 @@ class ColorAlertDialog(context: Context,
 
     private fun setInitialColor(color: String) {
         var intColor = colorToInt(color)
-        if (intColor == Color.BLACK) intColor = Color.WHITE
         val brightness = Utils.lightnessOfColor(intColor)
         intColor = Utils.colorAtLightness(intColor, 1f)
         colorPicker.setInitialColor(intColor, false)
